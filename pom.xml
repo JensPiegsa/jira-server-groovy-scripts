@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>jira-server-groovy-scripts</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <jira.version>7.2.2</jira.version>
+        <groovy.version>2.4.21</groovy.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-api</artifactId>
+            <version>${jira.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jta</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-core</artifactId>
+            <version>${jira.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jta</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jndi</groupId>
+                    <artifactId>jndi</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+
+<!--        https://github.com/atlascommunity/jira-plugins-groovy/ -->
+<!--        <dependency>-->
+<!--            <groupId>com.github.atlascommunity</groupId>-->
+<!--            <artifactId>jira-plugins-groovy</artifactId>-->
+<!--            <version>1.21.17-jira8</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+        
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.13.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>${groovy.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <scripts>
+                        <script>src/main/groovy/Main.groovy</script>
+                    </scripts>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>atlassian-public</id>
+            <url>https://maven.atlassian.com/repository/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+</project>

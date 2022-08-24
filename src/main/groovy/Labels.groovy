@@ -1,7 +1,6 @@
 import com.atlassian.jira.bc.issue.search.SearchService
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.issue.Issue
-import com.atlassian.jira.issue.IssueManager
 import com.atlassian.jira.issue.label.Label
 import com.atlassian.jira.issue.search.SearchResults
 import com.atlassian.jira.jql.parser.JqlQueryParser
@@ -23,9 +22,11 @@ String optionalSortingLocaleName
 def labelFinder = new LabelFinder(
         ComponentAccessor.getComponent(SearchService),
         ComponentAccessor.getJiraAuthenticationContext(),
-        ComponentAccessor.getComponent(JqlQueryParser),
-        ComponentAccessor.getIssueManager()
-)
+        ComponentAccessor.getComponent(JqlQueryParser))
+
+if (projectKey == null) {
+    throw new RuntimeException("Project key is required")
+}
 
 return labelFinder.findAll(projectKey, optionalSortingLocaleName)
 
@@ -36,7 +37,6 @@ public class LabelFinder {
         log.setLevel(Level.INFO)
     }
 
-    private final IssueManager issueManager
     private final SearchService searchService
     private final JiraAuthenticationContext jiraAuthenticationContext
     private final JqlQueryParser jqlQueryParser
@@ -44,13 +44,11 @@ public class LabelFinder {
     public LabelFinder(
             SearchService searchService,
             JiraAuthenticationContext jiraAuthenticationContext,
-            JqlQueryParser jqlQueryParser,
-            IssueManager issueManager) {
+            JqlQueryParser jqlQueryParser) {
 
         this.searchService = searchService
         this.jiraAuthenticationContext = jiraAuthenticationContext
         this.jqlQueryParser = jqlQueryParser
-        this.issueManager = issueManager
     }
 
     public String findAll(String projectKey, String optionalSortingLocaleName) {

@@ -51,6 +51,16 @@ def fixStatus = new StatusCorrector(
         ComponentAccessor.getApplicationProperties(),
         ComponentAccessor.getCommentManager())
 
+if (issueKey == null) {
+    throw new RuntimeException("Issue key is required")
+}
+if (caseInsensitiveNewStatusNameOrId == null) {
+    throw new RuntimeException("New status name or ID is required")
+}
+if (reason == null) {
+    throw new RuntimeException("Reason key is required")
+}
+
 return fixStatus.changeIssueStatus(issueKey, caseInsensitiveNewStatusNameOrId, reason)
 
 public class StatusCorrector {

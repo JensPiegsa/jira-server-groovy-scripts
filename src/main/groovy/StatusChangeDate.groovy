@@ -171,8 +171,7 @@ public class StatusChangeDateWriter {
                             Timestamp date = historyItem.created;
                             result.append(" - date: ").append(date)
                             issue.setCustomFieldValue(dateField, date);
-                            // webhook invocation is triggered
-                            issueManager.updateIssue(changeUser, issue, EventDispatchOption.DO_NOT_DISPATCH, false)
+                            issueManager.updateIssue(changeUser, issue, EventDispatchOption.ISSUE_UPDATED, false)
                         }
                         if (fieldValue != null) {
                             Timestamp date = historyItem.created;
